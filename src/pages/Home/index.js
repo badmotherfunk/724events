@@ -12,8 +12,17 @@ import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
+
+
 const Page = () => {
-  const {last} = useData()
+  const {data} = useData()
+
+  // Filtre les dates plus anciennes que la date actuelle, et les tri de la plus ancienne à la plus récente
+  const currentDate = new Date()
+  const last = data && data.events
+  .filter((event) => new Date(event.date).getTime() < currentDate.getTime())
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+
   return <>
     <header>
       <Menu />
@@ -22,7 +31,7 @@ const Page = () => {
       <section className="SliderContainer">
         <Slider />
       </section>
-      <section className="ServicesContainer">
+      <section className="ServicesContainer" id="nos-services">
         <h2 className="Title">Nos services</h2>
         <p>Nous organisons des événements sur mesure partout dans le monde</p>
         <div className="ListContainer">
@@ -51,11 +60,11 @@ const Page = () => {
           </ServiceCard>
         </div>
       </section>
-      <section className="EventsContainer">
+      <section className="EventsContainer" id="nos-realisations">
         <h2 className="Title">Nos réalisations</h2>
         <EventList />
       </section>
-      <section className="PeoplesContainer">
+      <section className="PeoplesContainer" id="notre-equipe">
         <h2 className="Title">Notre équipe</h2>
         <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
         <div className="ListContainer">
@@ -117,11 +126,13 @@ const Page = () => {
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
         <EventCard
+          data-testid="last-event-card"
           imageSrc={last?.cover}
+          imageAlt={last?.description}
           title={last?.title}
           date={new Date(last?.date)}
           small
-          label="boom"
+          label={last?.type}
         />
       </div>
       <div className="col contact">
@@ -156,5 +167,6 @@ const Page = () => {
     </footer>
   </>
 }
+
 
 export default Page;
