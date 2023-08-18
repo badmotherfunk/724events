@@ -14,24 +14,26 @@ const EventList = () => {
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
+    // On affiche tous les événements OU On filtre les événements qui sont === state
+    (!type ? data?.events : data?.events.filter((event) => event.type === type)) || []).filter((event, index) => {
     if (
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index
     ) {
-      return true;
+      
+      return true ;
     }
     return false;
   });
+  // La value du select sur le onChange est passée au state
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
+
+
   return (
     <>
       {error && <div>An error occured</div>}
@@ -54,6 +56,7 @@ const EventList = () => {
                     title={event.title}
                     date={new Date(event.date)}
                     label={event.type}
+                    value={event.type}
                   />
                 )}
               </Modal>

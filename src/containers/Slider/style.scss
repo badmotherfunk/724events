@@ -28,16 +28,25 @@
     &__paginationContainer {
       position: absolute;
       left: 0;
-      bottom: 60px;
+      bottom: 55px;
       display: flex;
       justify-content: center;
       width: 100%;
-      input {
-        width: 16px;
-        height: 16px;
+      input[type=checkbox] {
+        width: 13px;
+        height: 13px;
         min-width: 0;
         color: $primary;
         cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: #fff;
+        border-radius: 50%;
+        margin: 5px;
+      }
+      [type=checkbox]:checked {
+        background-color: $primary;
+        outline: 1px solid #FFF;
       }
     }
     &__description {
