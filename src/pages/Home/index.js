@@ -126,15 +126,17 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
+        {/* Ajout du conditional rendering et de la modal pour le dernier événement */}
         {last &&
-          <Modal key={last.id} Content={<ModalEvent event={last} />}>
+          <Modal key={last?.id} Content={<ModalEvent event={last} />}>
             {({ setIsOpened }) => (
               <EventCard
                 onClick={() => setIsOpened(true)}
-                imageSrc={last.cover}
-                title={last.title}
-                date={new Date(last.date)}
-                label={last.type}
+                imageSrc={last?.cover}
+                title={last?.title}
+                date={new Date(last?.date)}
+                label={last?.type}
+                small
               />
             )}
           </Modal>
