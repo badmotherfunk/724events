@@ -1,5 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, } from "@testing-library/react";
+import { wait } from "@testing-library/user-event/dist/utils";
 import Home from "./index";
+
 
 describe("When Form is created", () => {
   it("a list of fields card is displayed", async () => {
@@ -27,18 +29,30 @@ describe("When Form is created", () => {
 
 });
 
+// Ajout des tests unitaires
 
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
-    // to implement
+    render(<Home/>);
+    expect(screen.getByTestId("events-testid")).toBeInTheDocument();
+    wait(() => {
+    screen.findByText("#DigitonPARIS");
+    })
   })
-  it("a list a people is displayed", () => {
-    // to implement
+  it("a list of people is displayed", () => {
+    render(<Home/>);
+    expect(screen.getByText("Samira")).toBeInTheDocument();
+    expect(screen.getByText("Jean-baptiste")).toBeInTheDocument();
   })
   it("a footer is displayed", () => {
-    // to implement
+    render(<Home/>);
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+    expect(screen.getByText("45 avenue de la République, 75000 Paris")).toBeInTheDocument();
   })
   it("an event card, with the last event, is displayed", () => {
-    // to implement
-  })
-});
+    render(<Home/>);
+    wait(() => {
+    expect(screen.getByTestId("last-event-testid")).toBeInTheDocument();
+    });
+  });
+})

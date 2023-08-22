@@ -115,32 +115,31 @@ const Page = () => {
           }
         >
           {({ setIsOpened }) => (
-            <Form
-              onSuccess={() => setIsOpened(true)}
-              onError={() => null}
-            />
+            <Form onSuccess={() => setIsOpened(true)} onError={() => null} />
           )}
         </Modal>
       </div>
     </main>
-    <footer className="row">
+    <footer className="row" role="contentinfo">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        {/* Ajout du conditional rendering et de la modal pour le dernier événement */}
-        {last &&
-          <Modal key={last?.id} Content={<ModalEvent event={last} />}>
+        {/* Ajout de l'opérateur ternaire et de la modal pour le dernier événement */}
+        {(last)? (
+          <Modal key={last?.id} Content={<ModalEvent event={last}/>}>
             {({ setIsOpened }) => (
               <EventCard
-                onClick={() => setIsOpened(true)}
-                imageSrc={last?.cover}
-                title={last?.title}
-                date={new Date(last?.date)}
-                label={last?.type}
-                small
-              />
-            )}
+              onClick={() => setIsOpened(true)}
+              imageSrc={last?.cover}
+              title={last?.title}
+              date={new Date(last?.date)}
+              label={last?.type}
+              role="article"
+              data-testid="last-event-testid"
+              small
+              /> 
+            )} 
           </Modal>
-        }
+        ): " "} 
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
