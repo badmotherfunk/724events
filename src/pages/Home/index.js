@@ -120,7 +120,7 @@ const Page = () => {
         </Modal>
       </div>
     </main>
-    <footer className="row" role="contentinfo">
+    <footer className="row" data-testid="footer-testid">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
         {/* Ajout de l'opérateur ternaire et de la modal pour le dernier événement */}
@@ -133,13 +133,13 @@ const Page = () => {
               title={last?.title}
               date={new Date(last?.date)}
               label={last?.type}
-              role="article"
+              role="contentinfo"
               data-testid="last-event-testid"
               small
               /> 
             )} 
           </Modal>
-        ): " "} 
+        ): <p>Découvrez bientôt notre dernière prestation</p>} 
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
