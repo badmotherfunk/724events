@@ -47,7 +47,8 @@ describe("When a page is created", () => {
   })
   it("an event card, with the last event, is displayed", () => {
     render(<Home/>);
-    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+    // Modification aprés la soutenance, on test sur le data-testid
+    expect(screen.getByTestId("last-event-testid")).toBeInTheDocument();
   }); 
 })
 
@@ -91,19 +92,24 @@ describe("When a last prestation is created", () => {
   })
 });
 
+describe("and we click on the last event", () => {
+  it("the event detail is displayed", async () => {
+    api.loadData = jest.fn().mockReturnValue(data);
+    render(
+      <DataProvider>
+        <EventList />
+      </DataProvider>
+    );
 
-// Vérification de la confirmation du message à l'envoi du formulaire
-describe("When a message is send", () => {
-  it("a success message is displayed", async () => {
-    render(<Home />);
     fireEvent(
-      await screen.findByText("Envoyer"),
+      await screen.findByText("Conférence #productCON"),
       new MouseEvent("click", {
         cancelable: true,
         bubbles: true,
       })
     );
-    await screen.findByText("En cours");
-    await screen.findByText("Message envoyé !");
+
+    await screen.findByText("conférence");
+    await screen.findByText("2 espaces de restaurations");
   });
 });

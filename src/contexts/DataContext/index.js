@@ -19,9 +19,18 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [last, setLast] = useState(null);
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const response = await api.loadData();
+      setData(response);
+      // Ajout du tri pour récupérer le dernier évènement
+      const currentDate = new Date()
+      const lastEvent = response.events
+        .filter((event) => new Date(event.date).getTime() < currentDate.getTime())
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+      // On ajoute au state notre dernier évènement trié
+      setLast(lastEvent)
     } catch (err) {
       setError(err);
     }
@@ -37,6 +46,8 @@ export const DataProvider = ({ children }) => {
       value={{
         data,
         error,
+        // Ajout du state du dernier événement au provider
+        last,
       }}
     >
       {children}

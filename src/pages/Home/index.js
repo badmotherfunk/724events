@@ -16,13 +16,8 @@ import { useData } from "../../contexts/DataContext";
 
 
 const Page = () => {
-  const {data} = useData()
-
-  // Filtre les dates plus anciennes que la date actuelle, et les tri de la plus ancienne à la plus récente
-  const currentDate = new Date()
-  const last = data && data.events
-  .filter((event) => new Date(event.date).getTime() < currentDate.getTime())
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+  // On récupère nos data pour le dernier évènement
+  const {last} = useData()
 
   return <>
     <header>
@@ -122,9 +117,7 @@ const Page = () => {
     </main>
     <footer className="row" data-testid="footer-testid">
       <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-        {/* Ajout de l'opérateur ternaire et de la modal pour le dernier événement */}
-        {(last)? (
+        <h3>Notre dernière prestation</h3>
           <Modal key={last?.id} Content={<ModalEvent event={last}/>}>
             {({ setIsOpened }) => (
               <EventCard
@@ -133,13 +126,11 @@ const Page = () => {
               title={last?.title}
               date={new Date(last?.date)}
               label={last?.type}
-              role="contentinfo"
               data-testid="last-event-testid"
               small
               /> 
             )} 
           </Modal>
-        ): <p>Découvrez bientôt notre dernière prestation</p>} 
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
